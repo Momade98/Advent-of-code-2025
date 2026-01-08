@@ -1,4 +1,4 @@
-with open("./testinput.txt", "r") as file:
+with open("./testestinput.txt", "r") as file:
     inputdata = file.read().splitlines()
 
 
@@ -10,20 +10,29 @@ for line in inputdata:
         rangesRaw.append(line)
 
 
-for i, range in enumerate(rangesRaw):
-    minRangeI = int(range[:range.index("-")])
-    maxRangeI = int(range[range.index("-") + 1:])
-    for j, nextRange in enumerate(rangesRaw[i+1:]):
-        minRangej = int(nextRange[:nextRange.index("-")])
-        maxRangej = int(nextRange[nextRange.index("-") + 1:])
+counter = 0
+repeat = True
+
+while repeat is True:
+    for i, range in enumerate(rangesRaw):
+        minRangeI = int(range[:range.index("-")])
+        maxRangeI = int(range[range.index("-") + 1:])
+        for j, nextRange in enumerate(rangesRaw[i+1:]):
+            minRangej = int(nextRange[:nextRange.index("-")])
+            maxRangej = int(nextRange[nextRange.index("-") + 1:])
 
 
-for range in rangesRaw:
-    counter = int(range[:range.index("-")])
-    while counter <= int(range[range.index("-") + 1:]):
-        counter += 1
-        if counter not in goodIds:
-            goodIds.append(counter)
+            if minRangeI >= minRangej and maxRangeI <= maxRangej:
+                rangesRaw.remove(range)
+                counter += 1
+                repeat = True
+            elif minRangej >= minRangeI and maxRangej <= maxRangeI:
+                rangesRaw.remove(nextRange)
+                counter += 1
+                repeat = True
+            else:
+                repeat = False
 
 
-print(len(goodIds))
+print(rangesRaw)
+print(counter)
